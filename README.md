@@ -42,23 +42,40 @@ To understand how you can build a content-based routing system using Ballerina, 
 
 ### Create the project structure
 
-Ballerina is a complete programming language that supports custom project structures. Use the following package structure for this guide.
-
-```
-content-based-routing
- └── guide
-      └── company_data_service
-           ├── company_data_service.bal 
-      └── company_recruitment_agency_service  
-	   ├──company_recruitment_agency_service.bal  
-      └── tests
-           ├──company_recruitment_agency_service_test.bal
-```
-
-Create the above directories in your local machine and also create empty `.bal` files. Open the terminal and navigate to `/content-based-routing/guide` and run Ballerina project initializing toolkit.
+Ballerina is a complete programming language that supports custom project structures. Create and go to `content-based-routing` folder. Now use following command to create a new project called `guide`.
 
 ```bash
-   $ ballerina init
+   $ ballerina new guide
+```
+
+Go into the new project directory and use following commands to create two modules within the project.
+```bash
+   $ ballerina create company_data_service
+   $ ballerina create company_recruitment_agency_service
+```
+
+Remove `main.bal` and `main_test.bal` files in module directories since we do not need those template files. Now create `company_data_service.bal` file in `company_data_service` module and `company_recruitment_agency_service.bal` file in `company_recruitment_agency_service` module.
+
+Now the package structure of this guide should look like below.
+
+```
+└── content-based-routing
+    ├── guide
+        ├── Ballerina.toml
+        ├── src
+        │   ├── company_data_service
+        │   │   ├── Module.md
+        │   │   ├── resources
+        │   │   └── tests
+        │   │       └── resources
+        │   └── company_recruitment_agency_service
+        │       ├── Module.md
+        │       ├── resources
+        │       └── tests
+        │           └── resources
+        └── tests
+            └── resources
+
 ```
 
 ### Developing the service
