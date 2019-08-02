@@ -42,23 +42,42 @@ To understand how you can build a content-based routing system using Ballerina, 
 
 ### Create the project structure
 
-Ballerina is a complete programming language that supports custom project structures. Use the following package structure for this guide.
-
-```
-content-based-routing
- └── guide
-      └── company_data_service
-           ├── company_data_service.bal 
-      └── company_recruitment_agency_service  
-	   ├──company_recruitment_agency_service.bal  
-      └── tests
-           ├──company_recruitment_agency_service_test.bal
-```
-
-Create the above directories in your local machine and also create empty `.bal` files. Open the terminal and navigate to `/content-based-routing/guide` and run Ballerina project initializing toolkit.
+Ballerina is a complete programming language that supports custom project structures. Create and go to `content-based-routing` folder. Now use following command to create a new project called `guide`.
 
 ```bash
-   $ ballerina init
+   $ ballerina new guide
+```
+
+Go into the new project directory and use following commands to create two modules within the project.
+```bash
+   $ ballerina create company_data_service
+   $ ballerina create company_recruitment_agency_service
+```
+
+Remove `main.bal` and `main_test.bal` files in module directories since we do not need those template files. Now create `company_data_service.bal` file in `company_data_service` module and `company_recruitment_agency_service.bal` file in `company_recruitment_agency_service` module.
+
+Now the package structure of this guide should look like below.
+
+```
+└── content-based-routing
+    ├── guide
+        ├── Ballerina.toml
+        ├── src
+        │   ├── company_data_service
+        │   │   ├── Module.md
+        │   ├── company_data_service.bal
+        │   │   ├── resources
+        │   │   └── tests
+        │   │       └── resources
+        │   └── company_recruitment_agency_service
+        │       ├── Module.md
+	│       ├── company_recruitment_agency_service.bal
+        │       ├── resources
+        │       └── tests
+        │           └── resources
+        └── tests
+            └── resources
+
 ```
 
 ### Developing the service
@@ -417,20 +436,18 @@ As the first step, you can build a Ballerina executable archive (.balx) of the s
 Once the `company_recruitment_agency_service.balx` file is created inside the target folder, you can run that with the following command. 
 
 ```bash
-   $ ballerina run target/company_recruitment_agency_service.balx
-   $ ballerina run target/company_data_service.balx 
+   $ ballerina run target/bin/company_recruitment_agency_service.jar
+   $ ballerina run target/bin/company_data_service.jar 
 ```
 
 The successful execution of the service shows us the following outputs. 
 
 ```bash
-    Initiating service(s) in 'target/company_recruitment_agency_service.balx'
-    ballerina: started HTTP/WS endpoint 0.0.0.0:9091
+    [ballerina/http] started HTTP/WS listener 0.0.0.0:9091
 ```
 and 
 ```bash
-    Initiating service(s) in 'target/company_data_service.balx'
-    ballerina: started HTTP/WS endpoint 0.0.0.0:9090
+    [ballerina/http] started HTTP/WS listener 0.0.0.0:9090
 ```
 
 ### Deploying on Docker
