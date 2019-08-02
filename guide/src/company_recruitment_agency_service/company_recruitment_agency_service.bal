@@ -1,7 +1,5 @@
 import ballerina/http;
 import ballerina/log;
-
-
 //Deploying on Docker
 
 //import ballerinax/docker;
@@ -33,43 +31,40 @@ import ballerina/log;
 //    image: "ballerina.guides.io/company_recruitment_agency_service:v1.0",
 //    name: "ballerina-guides-company_recruitment_agency_service"
 //}
-listener http:Listener comEP = new http:Listener(9091);
 
-//Client endpoint to communicate with company recruitment service
+listener http:Listener comEP = new(9091);
+
+// Client endpoint to communicate with company recruitment service
 http:Client locationEP = new("http://localhost:9090/companies");
 
-//Service is invoked using basePath value "/checkVacancies"
+// Service is invoked using basePath value "/checkVacancies"
 @http:ServiceConfig {
-    basePath: "/checkVacancies"
+    basePath:"/checkVacancies"
 }
-//"comapnyRecruitmentsAgency" routes requests to relevant endpoints and gets their responses.
-service comapnyRecruitmentsAgency on comEP {
-
+// "comapnyRecruitmentsAgency" routes requests to relevant endpoints and gets their responses.
+service companyRecruitmentsAgency on comEP {
     // POST requests is directed to a specific company using, /checkVacancies/company.
     @http:ResourceConfig {
         methods: ["POST"],
         path: "/company"
     }
-    resource function comapnyRecruitmentsAgency(http:Caller CompanyEP, http:Request req) {
-        //Get the JSON payload from the request message.
-        var jsonMsg = req.getJsonPayload();
+    resource function comapnyRecruitmentsAgency(http:Caller CompanyEP, http:Request request) {
+        // Get the JSON payload from the request message.
+        var jsonMsg = request.getJsonPayload();
 
-        //Parsing the JSON payload from the request
+        // Parsing the JSON payload from the request
         if (jsonMsg is json) {
-            //Get the string value relevant to the key `name`.
+            // Get the string value relevant to the key `name`.
             string nameString;
+            nameString = <string>jsonMsg.Name;
 
-            nameString = <string>jsonMsg["Name"];
-
-            //The HTTP response can be either error|empty|clientResponse
+            // The HTTP response can be either error|empty|clientResponse
             (http:Response|error|()) clientResponse;
 
             if (nameString == "John and Brothers (pvt) Ltd") {
-                //Routes the payload to the relevant service.
-                clientResponse =
-                locationEP->get("/John-and-Brothers-(pvt)-Ltd");
-
-            } else if (nameString == "ABC Company") {
+                // Routes the payload to the relevant service.
+                clientResponse = locationEP->get("/John-and-Brothers-(pvt)-Ltd");
+            }  else if (nameString == "ABC Company") {
                 clientResponse =
                 locationEP->get("/ABC-Company");
 
@@ -81,24 +76,24 @@ service comapnyRecruitmentsAgency on comEP {
                 clientResponse = log:printError("Company Not Found!");
             }
 
-            //Use respond() to send the client response back to the caller.
-            //When the request is successful, the response is returned.
-            //Sends back the clientResponse to the caller if no error is found.
-           if(clientResponse is http:Response) {
-                var result = CompanyEP->respond(clientResponse);
-                handleErrorWhenResponding(result);
-           } else if (clientResponse is error) {
+            // Use respond() to send the client response back to the caller.
+            // When the request is successful, the response is returned.
+            // Sends back the clientResponse to the caller if no error is found.
+            if (clientResponse is http:Response) {
+               var result = CompanyEP->respond(clientResponse); 
+               handleErrorWhenResponding(result);
+            } else if (clientResponse is error) {
                 http:Response res = new;
                 res.statusCode = 500;
-                res.setPayload(<string>clientResponse.detail().message);
+                res.setPayload(<string>clientResponse.detail()["message"]);
                 var result = CompanyEP->respond(res);
                 handleErrorWhenResponding(result);
-           }
+            }
         } else {
             //500 error response is constructed and sent back to the client.
             http:Response res = new;
             res.statusCode = 500;
-            res.setPayload(untaint <string>jsonMsg.detail().message);
+            res.setPayload(<@untainted string> <string>jsonMsg.detail()["message"]);
             var result = CompanyEP->respond(res);
             handleErrorWhenResponding(result);
         }

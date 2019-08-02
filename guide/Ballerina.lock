@@ -1,0 +1,7 @@
+[project]
+name = "vinod"
+version = "0.1.0"
+lockfileversion = "1"
+ballerinaversion = "unknown"
+modules = []
+

@@ -1,3 +1,4 @@
+    
 import ballerina/http;
 import ballerina/io;
 import ballerina/test;
@@ -5,7 +6,6 @@ import ballerina/log;
 import ballerina/mime;
 
 boolean serviceStarted = false;
-
 
 
 function startService() {
@@ -107,4 +107,3 @@ function stopService() {
     test:stopServices("company_recruitment_agency_service");
     test:stopServices("company_data_service");
 }
-
