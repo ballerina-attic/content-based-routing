@@ -436,20 +436,18 @@ As the first step, you can build a Ballerina executable archive (.balx) of the s
 Once the `company_recruitment_agency_service.balx` file is created inside the target folder, you can run that with the following command. 
 
 ```bash
-   $ ballerina run target/company_recruitment_agency_service.balx
-   $ ballerina run target/company_data_service.balx 
+   $ ballerina run target/bin/company_recruitment_agency_service.jar
+   $ ballerina run target/bin/company_data_service.jar 
 ```
 
 The successful execution of the service shows us the following outputs. 
 
 ```bash
-    Initiating service(s) in 'target/company_recruitment_agency_service.balx'
-    ballerina: started HTTP/WS endpoint 0.0.0.0:9091
+    [ballerina/http] started HTTP/WS listener 0.0.0.0:9091
 ```
 and 
 ```bash
-    Initiating service(s) in 'target/company_data_service.balx'
-    ballerina: started HTTP/WS endpoint 0.0.0.0:9090
+    [ballerina/http] started HTTP/WS listener 0.0.0.0:9090
 ```
 
 ### Deploying on Docker
