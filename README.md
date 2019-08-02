@@ -65,11 +65,13 @@ Now the package structure of this guide should look like below.
         ├── src
         │   ├── company_data_service
         │   │   ├── Module.md
+        │   ├── company_data_service.bal
         │   │   ├── resources
         │   │   └── tests
         │   │       └── resources
         │   └── company_recruitment_agency_service
         │       ├── Module.md
+	│       ├── company_recruitment_agency_service.bal
         │       ├── resources
         │       └── tests
         │           └── resources
