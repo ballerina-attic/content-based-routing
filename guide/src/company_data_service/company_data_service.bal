@@ -1,5 +1,7 @@
+
 import ballerina/http;
 import ballerina/log;
+
 //import ballerinax/docker;
 //import ballerinax/kubernetes;
 
@@ -31,13 +33,16 @@ import ballerina/log;
 //    image: "ballerina.guides.io/company_data_service:v1.0",
 //    name: "ballerina-guides-company_data_service"
 //}
-listener http:Listener httpListener = new http:Listener(9090);
+
+listener http:Listener httpListener = new(9090);
 
 // Company data management is done using an in memory map.
 map<json> companyDataMap = {};
 
 // RESTful service.
-@http:ServiceConfig { basePath: "/companies" }
+@http:ServiceConfig {
+    basePath: "/companies"
+}
 service orderMgt on httpListener {
     // Resource that handles the HTTP GET requests that are directed to data of a specific
     // company using path '/John-and-Brothers-(pvt)-Ltd'
@@ -47,7 +52,7 @@ service orderMgt on httpListener {
     }
     resource function findJohnAndBrothersPvtLtd(http:Caller caller, http:Request req) {
         json? payload = {
-            Name: "John and Brothers (pvt) Ltd",
+            Name : "John and Brothers (pvt) Ltd",
             Total_number_of_Vacancies: 12,
             Available_job_roles: "Senior Software Engineer = 3 ,Marketing Executives = 5 Management Trainees = 4",
             CV_Closing_Date: "17/06/2018",
@@ -67,7 +72,6 @@ service orderMgt on httpListener {
         var result = caller->respond(response);
         handleErrorWhenResponding(result);
     }
-
     // Resource that handles the HTTP GET requests that are directed to data
     // of a specific company using path '/ABC-Company'
     @http:ResourceConfig {
